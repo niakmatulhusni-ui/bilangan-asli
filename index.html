@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Petualangan Angka di Hutan Ajaib</title>
+<style>
+:root{--ink:#29443d;--deep:#315f50;--green:#79b89a;--mint:#e7f5eb;--cream:#fffaf0;--peach:#ffe4d6;--pink:#f7cbd0;--lav:#e9e1f7;--gold:#f6d98b;--blue:#dceefa;--line:#c8dfd0}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#e7f5eb,#fff8ed 55%,#f4eafa);font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);min-height:100vh}
+.wrap{max-width:960px;margin:auto;padding:20px}.hero{position:relative;overflow:hidden;border-radius:28px;padding:25px 28px;background:linear-gradient(115deg,#386b58,#6da88b);color:white;box-shadow:0 7px 0 #2b5547}
+.hero h1{font-size:clamp(25px,4vw,39px);margin:0 0 7px}.hero p{margin:0;max-width:690px;line-height:1.5;color:#effaf1}.forest-art{position:absolute;right:20px;bottom:-8px;font-size:66px;letter-spacing:3px;filter:drop-shadow(0 4px 2px #315f5055)}
+.card{background:#fffefa;border:2px solid var(--line);border-radius:23px;padding:22px;margin-top:18px;box-shadow:0 5px 0 #b9d4c3aa}
+h2{color:var(--deep);margin:0 0 12px}.identity{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;font-weight:800;margin:0 0 7px;color:var(--deep)}
+input,select{font:inherit;color:#243d35!important;background:#fff!important;border:2px solid #bfd8ca;border-radius:12px;padding:12px;width:100%;min-width:0;outline-color:#70ae8b}
+input::placeholder{color:#879b91!important;opacity:1}
+button{font:inherit;font-weight:800;border:0;border-radius:14px;padding:13px 19px;cursor:pointer;transition:.18s; color:#24483b}
+button:hover{transform:translateY(-2px);filter:brightness(1.03)}button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.primary{background:#8bc6a4;box-shadow:0 4px 0 #5b9a78}.soft{background:#f8e6b7}.alt{background:#e9e1f7}.hidden{display:none!important}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.pill{display:inline-block;border-radius:99px;padding:7px 12px;font-size:13px;font-weight:900;background:#f8e6b7;color:#70572a}
+.progress{height:12px;background:#e9eee8;border-radius:99px;overflow:hidden;margin:13px 0 18px}.bar{height:100%;width:0;background:linear-gradient(90deg,#79bd9a,#f0cf83);transition:width .35s}
+.prompt{font-size:18px;line-height:1.6;background:#f1f8f1;border:1px solid #d8eadc;border-radius:16px;padding:16px;margin:13px 0}
+.answer{margin:18px 0}.feedback{padding:14px 16px;border-radius:15px;margin:14px 0;font-weight:700;line-height:1.55;animation:pop .3s}.good{background:#e5f7eb;border:2px solid #a9d9b8;color:#276346}.try{background:#fff4d8;border:2px solid #f2d48a;color:#765a1e}.reveal{background:#fce9e9;border:2px solid #efb8b8;color:#814040}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}@keyframes float{50%{transform:translateY(-7px)}}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.choice{display:flex;align-items:center;gap:9px;padding:12px;border:2px solid #d6e7db;border-radius:13px;background:#fff;cursor:pointer}.choice:has(input:checked){border-color:#70ae8b;background:#eff8f0}.choice input{width:auto;accent-color:#579873}
+.circle-layout{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;padding:8px 0}.circle-board{width:min(100%,340px);height:auto;overflow:visible}.number-bank{display:grid;grid-template-columns:repeat(2,76px);gap:12px;align-content:center;background:#f1f4f1;border:2px solid #d3ded5;border-radius:20px;padding:16px;min-width:190px}.number-bank>b{grid-column:1/-1;font-size:14px;line-height:1.4}.number-chip{width:68px;height:68px;border-radius:50%;background:#d8d9d7;border:2px solid #929b95;color:#39423d;font-size:22px;box-shadow:0 3px 0 #aeb7b1}.number-chip.selected{background:#f6d98b;border-color:#b78a35;transform:scale(1.08)}.number-chip:disabled{opacity:.35;text-decoration:line-through}.target-node text{pointer-events:none}
+.circlegrid{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}.node{width:110px;text-align:center;background:#f4edfb;border:2px solid #cfc0e8;border-radius:18px;padding:10px}.node b{display:block;font-size:14px;margin-bottom:6px}.node select{text-align:center;font-weight:900;font-size:18px}
+.edges{background:#fff8e8;border-radius:14px;padding:12px 15px;line-height:1.8}.edges strong{color:#775d2c}
+.multi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.multi label{margin:0}.multi input{text-align:center;font-weight:800}
+.actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:17px}
+.note{font-size:13px;color:#71877b}.spark{font-size:25px;display:inline-block;animation:float 1.3s infinite}
+.summary{text-align:center}.score{font-size:46px;font-weight:900;color:#5b9a78}.review{text-align:left;background:#f4f8f1;border-radius:14px;padding:13px;margin:10px 0}
+@media(max-width:620px){.wrap{padding:12px}.card{padding:16px}.identity,.multi{grid-template-columns:1fr}.forest-art{opacity:.35}.choices{grid-template-columns:1fr}.node{width:calc(50% - 8px)}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="hero"><h1>🌿 Petualangan Angka di Hutan Ajaib</h1><p>Jelajahi hutan, pecahkan teka-teki angka, dan kumpulkan bintang di setiap tantangan!</p><div class="forest-art">🌳 🦊 🍄</div></header>
+<section id="start" class="card">
+<h2>🎒 Sebelum berpetualang...</h2><p>Isi identitasmu terlebih dahulu. Selesaikan satu tantangan untuk membuka tantangan berikutnya. Jika jawabanmu salah, kamu masih punya satu kesempatan lagi!</p>
+<div class="identity"><div><label for="nama">Nama siswa</label><input id="nama" placeholder="Nama lengkap"></div><div><label for="kelas">Kelas</label><input id="kelas" placeholder="Contoh: 3A"></div></div>
+<div class="actions"><span class="note">🍃 Baca petunjuk dengan teliti, ya!</span><button class="primary" id="startBtn">Mulai Petualangan 🚀</button></div><div id="startErr" class="feedback try hidden">Nama dan kelas perlu diisi dulu, ya.</div>
+</section>
+<section id="game" class="card hidden">
+<div class="row"><b id="who"></b><span class="pill" id="counter">Tantangan 1/14</span></div><div class="progress"><div id="bar" class="bar"></div></div>
+<div class="row"><span id="section" class="pill">🌲 Hutan Lingkaran Angka</span><span id="stars">⭐ 0 bintang</span></div>
+<h2 id="title" style="margin-top:14px"></h2><div id="prompt" class="prompt"></div><div id="answer" class="answer"></div>
+<div id="feedback" class="hidden" aria-live="polite"></div><div class="actions"><button class="soft" id="check">Periksa Jawaban 🌟</button><button class="primary hidden" id="next">Lanjutkan Petualangan ➜</button></div>
+<p class="note" id="attemptNote">Dua kesempatan tersedia untuk setiap tantangan.</p>
+</section>
+<section id="end" class="card summary hidden"><div class="spark">🏆 🌈 🦋</div><h2>Petualangan selesai!</h2><p id="endWho"></p><div class="score" id="score"></div><p id="endMsg"></p><div id="review"></div><button class="primary" onclick="location.reload()">Main Lagi 🔄</button></section>
+<footer class="note" style="text-align:center;padding:20px">🌼 Terus mencoba. Setiap tantangan membuatmu semakin hebat!</footer>
+</div>
+<script>
+const tasks=[
+{group:"🌲 Hutan Lingkaran Angka",title:"Tantangan 1 • Tiga lingkaran",type:"circles",nums:[12,6,18],nodes:["A","B","C"],edges:["A → B","B → C","A → C"],valid:{A:18,B:12,C:6},explain:"Setiap panah harus berawal dari angka yang lebih besar dan menuju angka yang lebih kecil. Susunan yang benar: A = 18, B = 12, C = 6."},
+{group:"🌲 Hutan Lingkaran Angka",title:"Tantangan 2 • Empat lingkaran",type:"circles",nums:[8,24,16,32],nodes:["A","B","C","D"],edges:["A → B","A → C","A → D","B → C","B → D","C → D"],direction:"ascending",valid:{A:8,B:16,C:24,D:32},explain:"Bagus! Pada soal ini panah bergerak dari angka terkecil ke terbesar. Susunannya: A = 8, B = 16, C = 24, D = 32."},
+{group:"🌲 Hutan Lingkaran Angka",title:"Tantangan 3 • Jalur bercabang",type:"circles",nums:[15,35,25,45],nodes:["A","B","C","D"],edges:["A → B","A → C","A → D","B → C","B → D","C → D"],valid:{A:45,B:35,C:25,D:15},explain:"A harus lebih besar dari B dan C, B lebih besar dari C dan D, serta C lebih besar dari D. Susunannya: 45, 35, 25, 15."},
+{group:"🌲 Hutan Lingkaran Angka",title:"Tantangan 4 • Lima lingkaran",type:"circles",nums:[10,30,20,50,40],nodes:["A","B","C","D","E"],edges:["A → B","A → C","A → D","A → E","B → C","B → D","B → E","C → D","C → E","D → E"],direction:"ascending",valid:{A:10,B:20,C:30,D:40,E:50},explain:"Tepat! Panah bergerak dari angka terkecil ke terbesar. Susunannya: A = 10, B = 20, C = 30, D = 40, E = 50."},
+{group:"🌲 Hutan Lingkaran Angka",title:"Tantangan 5 • Jejak angka tersembunyi",type:"circles",nums:[12,36,24,48,60],nodes:["A","B","C","D","E"],edges:["A → B","A → C","A → D","A → E","B → C","B → D","B → E","C → D","C → E","D → E"],valid:{A:60,B:48,C:36,D:24,E:12},explain:"Semua panah bergerak dari angka besar ke angka kecil. Susunannya: A = 60, B = 48, C = 36, D = 24, E = 12."},
+{group:"🍄 Hutan Barisan Bilangan",title:"Tantangan 6 • Pola selang-seling",type:"alternating",prompt:"Perhatikan barisan berikut: <b>4, 15, 7, 20, 10, 25, 13, ..., ...</b><br>Isilah dua bilangan berikutnya. Lalu pilih pola untuk posisi ganjil dan posisi genap.",answer:[30,16],pattern:"ganjil +3; genap +5",explain:"Suku posisi ganjil: 4, 7, 10, 13, 16 (bertambah 3). Suku posisi genap: 15, 20, 25, 30 (bertambah 5)."},
+{group:"🍄 Hutan Barisan Bilangan",title:"Tantangan 7 • Fibonacci",type:"sequence3",prompt:"Perhatikan barisan Fibonacci berikut: <b>2, 4, 6, 10, 16, 26, ..., ..., ...</b><br>Tentukan tiga bilangan berikutnya.",answer:[42,68,110],explain:"Setiap bilangan diperoleh dengan menjumlahkan dua bilangan sebelumnya: 16 + 26 = 42, 26 + 42 = 68, dan 42 + 68 = 110."},
+{group:"🍄 Hutan Barisan Bilangan",title:"Tantangan 8 • Pola penjumlahan",type:"sequence2",prompt:"Perhatikan barisan berikut: <b>5, 11, 19, 29, 41, ..., ...</b><br>Tentukan dua bilangan berikutnya.",answer:[55,71],explain:"Selisihnya berturut-turut +6, +8, +10, +12, lalu +14 dan +16. Jadi dua bilangan berikutnya 55 dan 71."},
+{group:"🦉 Hutan Bilangan Rahasia",title:"Tantangan 10 • Puluhan",type:"number",prompt:"Sebutkan bilangan dua digit terbesar yang mempunyai <b>5 puluhan</b>.",answer:59,unit:"",explain:"Bilangan terbesar dengan 5 puluhan adalah 59 karena angka satuan terbesar adalah 9."},
+{group:"🦉 Hutan Bilangan Rahasia",title:"Tantangan 11 • Satuan",type:"number",prompt:"Sebutkan bilangan dua digit terkecil yang mempunyai <b>7 satuan</b>.",answer:17,unit:"",explain:"Bilangan dua digit terkecil dengan 7 satuan adalah 17."},
+{group:"🦉 Hutan Bilangan Rahasia",title:"Tantangan 12 • Susun angka",type:"number",prompt:"Dengan menggunakan angka <b>2, 4, 6, 8</b>, tuliskan bilangan dua digit terbesar yang digit-digitnya tidak berulang.",answer:86,unit:"",explain:"Pilih angka terbesar sebagai puluhan, yaitu 8, lalu angka terbesar berikutnya sebagai satuan, yaitu 6. Hasilnya 86."},
+{group:"🦉 Hutan Bilangan Rahasia",title:"Tantangan 13 • Ayo jumlahkan",type:"number",prompt:"Tambahkan bilangan dua digit terkecil dengan bilangan satu digit terbesar.",answer:19,unit:"",explain:"Bilangan dua digit terkecil adalah 10 dan bilangan satu digit terbesar adalah 9. Jadi 10 + 9 = 19."},
+{group:"🦉 Hutan Bilangan Rahasia",title:"Tantangan 14 • Jumlah digit",type:"number",prompt:"Tuliskan bilangan dua digit terbesar yang jumlah digitnya <b>11</b>.",answer:92,unit:"",explain:"92 adalah bilangan terbesar dengan jumlah digit 9 + 2 = 11."}
+];
+let idx=0,tries=0,stars=0,wrong=0,assisted=0;
+const el=id=>document.getElementById(id);
+el("startBtn").onclick=()=>{if(!el("nama").value.trim()||!el("kelas").value.trim()){el("startErr").classList.remove("hidden");return}el("start").classList.add("hidden");el("game").classList.remove("hidden");el("who").textContent="🧑‍🌾 "+el("nama").value.trim()+" • Kelas "+el("kelas").value.trim();draw()};
+function draw(){tries=0;circlePlacement={};selectedNumber=null;let t=tasks[idx];el("counter").textContent=`Tantangan ${idx+1}/${tasks.length}`;el("bar").style.width=(idx/tasks.length*100)+"%";el("section").textContent=t.group;el("stars").textContent=`⭐ ${stars} bintang`;el("title").textContent=t.title;el("prompt").innerHTML=t.type==="circles"?`Susun angka <b>${t.nums.join(", ")}</b> ke dalam lingkaran. ${t.direction==="ascending"?"Setiap tanda panah harus bergerak dari angka terkecil ke angka terbesar.":"Setiap tanda panah harus bergerak dari angka terbesar ke angka terkecil."}`:t.prompt;el("feedback").className="hidden";el("check").classList.remove("hidden");el("next").classList.add("hidden");el("attemptNote").textContent="Kamu punya dua kesempatan untuk menjawab.";let a=el("answer");a.innerHTML="";
+if(t.type==="circles"){renderCirclePuzzle(t,a)}
+else if(t.type==="alternating"){a.innerHTML=`<div class="multi"><div><label>Bilangan ke-8</label><input id="v0" type="number" placeholder="Jawaban"></div><div><label>Bilangan ke-9</label><input id="v1" type="number" placeholder="Jawaban"></div></div><p><label for="pattern">Pilih pola yang tepat</label><select id="pattern"><option value="">Pilih pola</option><option value="ganjil +3; genap +5">Posisi ganjil +3, posisi genap +5</option><option value="ganjil +5; genap +3">Posisi ganjil +5, posisi genap +3</option><option value="semua +3">Semua suku bertambah 3</option></select>`}
+else if(t.type==="sequence2"||t.type==="sequence3"){a.innerHTML='<div class="multi">'+t.answer.map((_,i)=>`<div><label>Bilangan berikutnya ke-${i+1}</label><input id="v${i}" type="number" placeholder="Isi angka"></div>`).join("")+'</div>'}
+else{a.innerHTML=`<label for="single">Tulis jawabanmu</label><input id="single" type="number" placeholder="Ketik angka di sini">`}}
+
+function renderCirclePuzzle(t,host){
+ const positions={
+  3:{A:[150,65],B:[65,205],C:[235,205]},
+  4:{A:[255,65],B:[65,65],C:[65,225],D:[255,225]},
+  5:{A:[160,45],B:[285,125],C:[240,270],D:[80,270],E:[35,125]}
+ };
+ let layoutData=circleLayouts[idx];
+ if(!layoutData){
+   const base=positions[t.nodes.length],coords=shuffled(Object.values(base));
+   const mapped={};t.nodes.forEach((n,i)=>mapped[n]=coords[i]);
+   layoutData={pos:mapped,bank:shuffled(t.nums)};circleLayouts[idx]=layoutData;
+ }
+ const pos=layoutData.pos,svgNS="http://www.w3.org/2000/svg";
+ const svg=document.createElementNS(svgNS,"svg");svg.setAttribute("viewBox","0 0 320 320");svg.setAttribute("class","circle-board");svg.setAttribute("role","img");svg.setAttribute("aria-label","Diagram lingkaran angka dengan arah panah");
+ const defs=document.createElementNS(svgNS,"defs"),marker=document.createElementNS(svgNS,"marker");
+ marker.setAttribute("id","arrowhead");marker.setAttribute("markerWidth","8");marker.setAttribute("markerHeight","8");marker.setAttribute("refX","6");marker.setAttribute("refY","3");marker.setAttribute("orient","auto");
+ const tip=document.createElementNS(svgNS,"path");tip.setAttribute("d","M0,0 L0,6 L7,3 z");tip.setAttribute("fill","#29443d");marker.appendChild(tip);defs.appendChild(marker);svg.appendChild(defs);
+ t.edges.forEach(edge=>{const [from,to]=edge.split(" → "),[x1,y1]=pos[from],[x2,y2]=pos[to];const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len;
+ const line=document.createElementNS(svgNS,"line");line.setAttribute("x1",x1+ux*39);line.setAttribute("y1",y1+uy*39);line.setAttribute("x2",x2-ux*43);line.setAttribute("y2",y2-uy*43);line.setAttribute("stroke","#29443d");line.setAttribute("stroke-width","3.5");line.setAttribute("marker-end","url(#arrowhead)");svg.appendChild(line)});
+ t.nodes.forEach(n=>{const [x,y]=pos[n],g=document.createElementNS(svgNS,"g");g.setAttribute("class","target-node");g.dataset.node=n;g.style.cursor="pointer";
+ const c=document.createElementNS(svgNS,"circle");c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r","37");c.setAttribute("fill","#83bce9");c.setAttribute("stroke","#29443d");c.setAttribute("stroke-width","3");g.appendChild(c);
+ const txt=document.createElementNS(svgNS,"text");txt.setAttribute("x",x);txt.setAttribute("y",y+6);txt.setAttribute("text-anchor","middle");txt.setAttribute("font-size","18");txt.setAttribute("font-weight","bold");txt.setAttribute("fill","#183c5b");txt.textContent=n;g.appendChild(txt);
+ const val=document.createElementNS(svgNS,"text");val.setAttribute("x",x);val.setAttribute("y",y+6);val.setAttribute("text-anchor","middle");val.setAttribute("font-size","22");val.setAttribute("font-weight","bold");val.setAttribute("fill","#17345f");val.dataset.valueFor=n;val.textContent="";g.appendChild(val);
+ g.addEventListener("click",()=>{if(selectedNumber===null){if(circlePlacement[n]!==undefined){delete circlePlacement[n];renderCirclePuzzle(t,host)}return;}circlePlacement[n]=selectedNumber;selectedNumber=null;renderCirclePuzzle(t,host)});svg.appendChild(g)});
+ const layout=document.createElement("div");layout.className="circle-layout";layout.appendChild(svg);
+ const bank=document.createElement("div");bank.className="number-bank";bank.innerHTML="<b>Ambil angka, lalu sentuh lingkaran tujuan:</b>";
+ layoutData.bank.forEach(num=>{const used=Object.values(circlePlacement).includes(num),btn=document.createElement("button");btn.type="button";btn.className="number-chip"+(selectedNumber===num?" selected":"");btn.textContent=num;btn.disabled=used;btn.addEventListener("click",()=>{selectedNumber=num;renderCirclePuzzle(t,host)});bank.appendChild(btn)});
+ layout.appendChild(bank);host.innerHTML="";host.appendChild(layout);
+ // fill assigned values and visually mark completed circles
+ svg.querySelectorAll(".target-node").forEach(g=>{const n=g.dataset.node,val=g.querySelector(`[data-value-for="${n}"]`);if(circlePlacement[n]!==undefined){g.querySelector("circle").setAttribute("fill","#b7e4c7");g.querySelector("text").textContent=circlePlacement[n];g.querySelector("text").setAttribute("font-size","22")}});
+ host.insertAdjacentHTML("beforeend",'<p class="note">Pilih angka abu-abu, lalu pilih lingkaran tujuan. Untuk mengeluarkan angka yang sudah ditempatkan, klik kembali lingkarannya. Setiap angka hanya dapat digunakan satu kali.</p>');
+}
+let circlePlacement={},selectedNumber=null;
+const circleLayouts={};
+function shuffled(list){const a=[...list];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
+function collect(){let t=tasks[idx];if(t.type==="circles"){let out={};for(let n of t.nodes){if(circlePlacement[n]===undefined)return null;out[n]=Number(circlePlacement[n])}return out}if(t.type==="alternating")return [el("v0").value,el("v1").value,el("pattern").value];if(t.type.startsWith("sequence"))return t.answer.map((_,i)=>el("v"+i).value);return el("single").value}
+function valid(v,t){if(v===null)return false;if(t.type==="circles"){let vals=Object.values(v);if(new Set(vals).size!==vals.length||vals.length!==t.nums.length)return false;return t.edges.every(edge=>{let [a,b]=edge.split(" → ");return t.direction==="ascending"?v[a]<v[b]:v[a]>v[b]})}if(t.type==="alternating")return Number(v[0])===30&&Number(v[1])===16&&v[2]===t.pattern;if(Array.isArray(t.answer))return v.every((x,i)=>x!==""&&Number(x)===t.answer[i]);return v!==""&&Number(v)===t.answer}
+el("check").onclick=()=>{let t=tasks[idx],v=collect();if(v===null||(Array.isArray(v)&&v.some(x=>x===""))){show("try","🍃 Lengkapi semua bagian jawaban terlebih dahulu, ya. Kamu pasti bisa!");return}if(valid(v,t)){stars+=tries===0?2:1;show("good",(tries===0?"🌟 Hebat! Jawabanmu benar! ":"✨ Bagus, kamu berhasil pada kesempatan kedua! ")+t.explain);el("stars").textContent=`⭐ ${stars} bintang`;lockSolved();}else if(tries===0){tries=1;wrong++;show("try","Belum tepat. Tidak apa-apa, penjelajah hebat selalu mencoba lagi! 💪 Periksa kembali angka dan arah panahmu.");el("attemptNote").textContent="Kesempatan kedua! Kamu bisa memperbaiki jawaban satu kali lagi."}else{assisted++;show("reveal","Kamu sudah menggunakan dua kesempatan. Yuk, pelajari cara yang benar! 🌱 "+t.explain);lockSolved();}};
+function show(cls,msg){el("feedback").className="feedback "+cls;el("feedback").textContent=msg}
+function lockSolved(){el("check").classList.add("hidden");el("next").classList.remove("hidden");el("attemptNote").textContent="Tantangan selesai. Tekan lanjut untuk membuka tantangan berikutnya."}
+el("next").onclick=()=>{idx++;if(idx<tasks.length)draw();else finish()};
+function finish(){el("game").classList.add("hidden");el("end").classList.remove("hidden");el("bar").style.width="100%";el("endWho").textContent=el("nama").value+" • Kelas "+el("kelas").value;el("score").textContent=stars+" ⭐";el("endMsg").textContent=stars>=24?"Luar biasa! Kamu penjelajah angka yang hebat!":stars>=16?"Kerja bagus! Terus asah kemampuan matematikamu.":"Kamu sudah menyelesaikan petualangan. Terus berlatih, ya!";el("review").innerHTML=`<div class="review">Tantangan selesai: <b>${tasks.length} dari ${tasks.length}</b><br>Jawaban yang perlu dipelajari kembali: <b>${assisted}</b><br>Bintang terkumpul: <b>${stars}</b></div><p class="note">Bintang: 2 untuk jawaban benar pada kesempatan pertama, 1 untuk jawaban benar pada kesempatan kedua.</p>`}
+</script></body></html>
